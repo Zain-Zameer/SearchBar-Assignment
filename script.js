@@ -1,3 +1,4 @@
+// SHowing data from an array list 
 let array = [
     "Hello World",
     "Hello World in java",
@@ -30,32 +31,50 @@ let array = [
 ];
 
 const resultsBox = document.querySelector(".result");
+const showBox = document.querySelector(".show");
 const inputBox = document.getElementById("searchBar");
+
 
 inputBox.onkeyup = function(){
     let results = [];
     let input = inputBox.value;
+    showData([input]);
     if(input.length){
         result = array.filter((keyword)=>{
             return keyword.toLowerCase().includes(input.toLowerCase());
         });
-        console.log(result);
     }
     displayResult(result);
     if(!input.length){
         resultsBox.innerHTML = "";
+        showBox.innerHTML = "";
+        
     }
 }
 
 function displayResult(result){
     const content = result.map((list)=>{
-        return "<li = onClick =selectInput(this)>"+list+"</li>";
+        const index = list.toLowerCase().indexOf(inputBox.value.toLowerCase());
+        const beforeMatch = list.substring(0, index);
+        const match = list.substring(index, index + inputBox.value.length);
+        const afterMatch = list.substring(index + inputBox.value.length);
+        const highlightedItem = beforeMatch + "<strong>" + match + "</strong>" + afterMatch;
+        return "<li onclick='selectInput(this)'>" + highlightedItem + "</li>";
+        
     })
     
     resultsBox.innerHTML = "<ul>" + content.join('') + "</ul>";
 }
 
+function showData(input){
+    const content = input.map((input)=>{
+        return "<li>"+input+"  <i style =color:grey >- Zen Zen Search</i>"+"</li>";
+    })
+    showBox.innerHTML = "<ul>" + content.join('') + "</ul>";
+}
+
 function selectInput(list){
-    inputBox.value = list.innerHTML;
+    inputBox.value = list.textContent;
     resultsBox.innerHTML = "";
+    showBox.innerHTML = "";
 }

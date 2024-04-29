@@ -32,9 +32,6 @@
     .Heading{
         text-align: center;
     }
-
-
-
     input{
         background: transparent;
         flex: 1;
@@ -46,7 +43,7 @@
     .Main{
         width: 600px;
         background-color: #fff;
-        margin: 200px auto 0;
+        margin: 140px auto 0;
         border-radius: 5px;
     }
     .result ul{
@@ -55,6 +52,8 @@
     }
     .result{
         overflow-y: scroll;
+        margin: 0;
+        padding: 0;
         max-height: 300px;
     }
     .result ul li{
@@ -75,16 +74,39 @@
         display: flex;
         padding: 10px 20px;
     }
+    .show{
+        margin: 0;
+        padding: 0;
+    }
+    .show ul{
+        border-left: 4px solid #4a79f7;
+        border-radius: 0px 27px 26px 0px;
+        height: 30px;
+        background-color: #efefef;
+    }
+    .show ul li{
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 17px;
+        list-style: none;
+        position: relative;
+        left: -25px;
+    }
 </style>
 <body>
     <div class="Heading">
         <h1 id="title">avanza</h1>
         <p id="para"> solutions</p>
-    </div>
+   </div>   
     <div class="Main">
         <div class="searchMain">
             <input type="search" name="searchBar" id="searchBar" autocomplete="off" placeholder="Search">
+            
         </div>
+        <div class="show">
+            
+        </div>
+
         <div class="result">
             
         </div>
