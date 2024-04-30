@@ -1,3 +1,5 @@
+
+
 // SHowing data from an array list 
 let array = [
     "Hello World",
@@ -60,9 +62,7 @@ function displayResult(result){
         const afterMatch = list.substring(index + inputBox.value.length);
         const highlightedItem = beforeMatch + "<strong>" + match + "</strong>" + afterMatch;
         return "<li onclick='selectInput(this)'>" + highlightedItem + "</li>";
-        
-    })
-    
+    })   
     resultsBox.innerHTML = "<ul>" + content.join('') + "</ul>";
 }
 
