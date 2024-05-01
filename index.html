@@ -156,28 +156,38 @@ const inputBox = document.getElementById("searchBar");
 
 databaseResult = []
 
-fetch('/api/history')
-        .then(response =>response.json())
-        .then(history =>{
-            history.forEach(element => {
-                databaseResult.push(element);
-            });
-        });
+// fetch('/api/history')
+//         .then(response =>response.json())
+//         .then(history =>{
+//             history.forEach(element => {
+//                 databaseResult.push(element);
+//             });
+//         });
 
 inputBox.onkeyup = function(){
     let results = [];
     let input = inputBox.value;
+
+    fetch(`/api/history?search=${input}`)
+        .then(response =>response.json())
+        .then(history =>{
+            databaseResult.length = 0;
+            history.forEach(element => {
+                databaseResult.push(element);
+            });
+    });
+
     showData([input]);
     if(input.length){
-        resultDB = databaseResult.filter((keyword)=>{
-            return keyword.toLowerCase().includes(input.toLowerCase());
-        });
+        // resultDB = databaseResult.filter((keyword)=>{
+        //     return keyword.toLowerCase().includes(input.toLowerCase());
+        // });
         result = array.filter((keyword)=>{
             return keyword.toLowerCase().includes(input.toLowerCase());
         });
     }
     
-    displayResult(result,resultDB);
+    displayResult(result,databaseResult);
     if(!input.length){
         resultsBox.innerHTML = "";
         showBox.innerHTML = "";
@@ -185,7 +195,7 @@ inputBox.onkeyup = function(){
     }
 }
 
-function displayResult(result,resultDB){
+function displayResult(result,databaseResult){
     const content = result.map((list)=>{
         const index = list.toLowerCase().indexOf(inputBox.value.toLowerCase());
         const beforeMatch = list.substring(0, index);
@@ -194,7 +204,7 @@ function displayResult(result,resultDB){
         const highlightedItem = beforeMatch + "<strong>" + match + "</strong>" + afterMatch;
         return "<li onclick='selectInput(this)'>" + highlightedItem + "</li>";
     })  
-    const content2 = resultDB.map((list)=>{
+    const content2 = databaseResult.map((list)=>{
         const index = list.toLowerCase().indexOf(inputBox.value.toLowerCase());
         const beforeMatch = list.substring(0, index);
         const match = list.substring(index, index + inputBox.value.length);

@@ -13,28 +13,41 @@ var config = {
         password: "setting"
     }
 }
-let DataBaseRecords = [];
-sql.connect(config,function(err){
-    if(err)console.log(err);
-    var request = new sql.Request();
-    request.query("select History from personal.history",function(err,records){
-        if(err)console.log(err);
-        else{
-            records.recordset.forEach(function(record){
-                DataBaseRecords.push(record.History);
-            })
-        }
-    });
-})
+
+// let DataBaseRecords = [];
+// sql.connect(config,function(err){
+//     if(err)console.log(err);
+//     var request = new sql.Request();
+//     request.query("select History from personal.history",function(err,records){
+//         if(err)console.log(err);
+//         else{
+//             records.recordset.forEach(function(record){
+//                 DataBaseRecords.push(record.History);
+//             })
+//         }
+//     });
+// })
 
 
 app.get('/api/history',(req,res)=>{
-    movies = [];
-    DataBaseRecords.forEach(element => {
-        movies.push(element);
-    });
-    res.json(movies);
+    let movies = [];
+    const searchTerm = req.query.search;
+    movies.length = 0;
+    sql.connect(config,function(err){
+            if(err)console.log(err);
+            var request = new sql.Request();
+            request.query(`SELECT LOWER(History) AS History FROM personal.history WHERE LOWER(History) LIKE '%${searchTerm.toLowerCase()}%'`,function(err,records){
+                if(err)console.log(err);
+                else{
+                    records.recordset.forEach(function(record){
+                        movies.push(record.History);
+                    });
+                    res.json(movies);
+                }
+            });
+    })
 });
+
 
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'index.html'));
